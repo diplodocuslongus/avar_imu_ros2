@@ -1,11 +1,13 @@
 # Allan Variance ROS2
 
+Jazzy branch, tested on raspberry pi 5.
+
 This is a work based mainly on Autoliv-Research's allan_variance_ros2 package which itself is a clone of ori-drs/allan_variance_ros. I already had a clone of ori-drs so couldn't clone Autoliv-Research repos hence this independant repo.
 Credits goes to the authors of these repositories and their contributors.
 
 Additions to allan_variance_ros2:
-- humble and jazzy (see jazzy branch)
-- tested on raspberry pi 5
+- jazzy 
+- tested and instructions to run on raspberry pi 5
 - some additions to the readme\
 - make IMU simulator work (WIP)
 
@@ -58,7 +60,7 @@ update_rate: 400.0 #Make sure this is correct
 
 ```
 
-## Original Author
+## Original Authors
 
 [Russell Buchanan](https://www.ripl-lab.com/)
 
