@@ -1,5 +1,16 @@
 # Allan Variance ROS2
 
+This is a work based mainly on Autoliv-Research's allan_variance_ros2 package which itself is a clone of ori-drs/allan_variance_ros. I already had a clone of ori-drs so couldn't clone Autoliv-Research repos hence this independant repo.
+Credits goes to the authors of these repositories and their contributors.
+
+Additions to allan_variance_ros2:
+- humble and jazzy (see jazzy branch)
+- tested on raspberry pi 5
+- some additions to the readme\
+- make IMU simulator work (WIP)
+
+Original (Autoliv-Research's) readme.md
+
 ROS2-port of this [ROS package](https://github.com/ori-drs/allan_variance_ros).
 
 ## ROS2 package which loads a rosbag of IMU data and computes Allan Variance parameters
