@@ -1,5 +1,12 @@
 # Allan Variance ROS2
 
+This is the original allan_variance_ros2 package from Autoliv-Research, tested on humble.
+Notes: 
+- imu simulation doesn't work
+- requires imu_raw ros messages
+- won't work on jazzy
+- takes MCAP type of rosbag
+
 ROS2-port of this [ROS package](https://github.com/ori-drs/allan_variance_ros).
 
 ## ROS2 package which loads a rosbag of IMU data and computes Allan Variance parameters
