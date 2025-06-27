@@ -12,7 +12,6 @@ Additions to allan_variance_ros2:
 - make IMU simulator work (WIP)
 
 
-
 Run the package:
 
     ros2 run allan_variance_ros2 allan_variance ~/datasets/imu/bno055/simpletest src/allan_variance_ros2/src/allan_variance_ros2/config/bno055_ros2.yaml /home/rpikim
@@ -27,7 +26,7 @@ Run:
 
 Notes:
 
-- thought the recommended minimum duration for the data capture is 3hrs (10800s) this time can be reduced either by adjusting the period_max parameter in src/AllanVarianceComputor.cpp (line 144), this is the average tau for the ADEV analysis; or by removing all the `nan` in the output `.csv` file.
+- though the recommended minimum duration for the data capture is 3hrs (10800s) this time can be reduced either by adjusting the period_max parameter in src/AllanVarianceComputor.cpp (line 144), this is the average tau for the ADEV analysis; or by removing all the `nan` in the output `.csv` file.
 - to get the duration of the datacapture, which is a parameter to set (TODO: couldn't this be read from the rosbag?), do `ros2 bag info rosbag_directory` where rosbag_directory is the directory containing the .mcap rosbag., there is a `Duration` field.
 - to get the sampling rate (also a required parameter), play the rosbag (`ros2 bag play rosbag_directory`) and use `ros2 topic hz /the_imu_topic/imu_raw`, for example `ros2 topic hz /bno055/imu_raw`: 
 

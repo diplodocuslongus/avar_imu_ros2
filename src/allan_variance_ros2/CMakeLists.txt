@@ -59,6 +59,9 @@ ament_target_dependencies(${PROJECT_NAME} ${COLCON_PACKAGE_DEPENDENCIES})
 add_executable(allan_variance src/allan_variance.cpp)
 target_link_libraries(allan_variance ${PROJECT_NAME} )
 
+add_executable(imu_simulator src/ImuSimulator.cpp)
+target_link_libraries(imu_simulator ${PROJECT_NAME} )
+
 add_executable(plot_imu src/plot_imu.cpp)
 target_link_libraries(plot_imu PRIVATE ${PROJECT_NAME} rerun_sdk)
 
@@ -66,6 +69,7 @@ install(DIRECTORY include/ DESTINATION include)
 
 install(TARGETS
   allan_variance
+  imu_simulator
   plot_imu
   DESTINATION lib/${PROJECT_NAME})
 

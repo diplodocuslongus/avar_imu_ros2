@@ -13,10 +13,13 @@
 #include <fstream>
 #include <set>
 
-// ROS
-#include <ros/node_handle.h>
-#include <rosbag/bag.h>
-#include <sensor_msgs/Imu.h>
+// ROS2
+#include "rclcpp/rclcpp.hpp"
+#include <rosbag2_cpp/reader.hpp>
+#include <rosbag2_cpp/readers/sequential_reader.hpp>
+#include <rosbag2_storage/storage_options.hpp>
+#include <rosbag2_storage/storage_filter.hpp> 
+#include "sensor_msgs/msg/imu.hpp"
 
 #include "allan_variance_ros2/yaml_parsers.hpp"
 
@@ -55,23 +58,23 @@ public:
     get(yaml_config, "gyroscope_bias_init", gyroscope_bias_init_);
 
     get(yaml_config, "rostopic", rostopic_);
-    ROS_INFO_STREAM("rostopic: " << rostopic_);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"rostopic: " << rostopic_);
     get(yaml_config, "update_rate", update_rate_);
-    ROS_INFO_STREAM("update_rate: " << update_rate_);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"update_rate: " << update_rate_);
     get(yaml_config, "sequence_duration", sequence_duration_);
-    ROS_INFO_STREAM("sequence_duration: " << sequence_duration_);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"sequence_duration: " << sequence_duration_);
   }
 
   virtual ~ImuSimulator() { bag_output_.close(); }
 
   void run()
   {
-    ROS_INFO_STREAM("Generating IMU data ...");
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"Generating IMU data ...");
 
     double dt = 1 / update_rate_;
 
     // clang-format off
-    ros::Time start_time(1.0);
+    rclcpp::Time start_time(1.0);
     Vec3d accelerometer_bias = Vec3d::Constant(accelerometer_bias_init_);
     Vec3d gyroscope_bias = Vec3d::Constant(gyroscope_bias_init_);
     Vec3d accelerometer_real = Vec3d::Zero();
@@ -81,7 +84,8 @@ public:
     for (int64_t i = 0; i < sequence_duration_ * update_rate_; ++i) {
 
       // Break if requested by user
-      if (!ros::ok()) {
+      if (!rclcpp::ok()) {
+      /* if (!ros::ok()) { */
         break;
       }
 
@@ -102,7 +106,7 @@ public:
     }
     // clang-format on
 
-    ROS_INFO_STREAM("Finished generating data. ");
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"Finished Generating IMU data ...");
   }
 
 private:
@@ -126,8 +130,9 @@ private:
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "allan_variance_ros");
-  ros::NodeHandle nh;
+  rclcpp::init(argc, argv);
+  auto node = rclcpp::Node::make_shared("allan_variance_ros");
+
   std::string rosbag_filename;
   std::string config_file;
 
@@ -135,22 +140,23 @@ int main(int argc, char **argv)
   {
     rosbag_filename = argv[1];
     config_file = argv[2];
-    ROS_INFO_STREAM("Bag filename = " << rosbag_filename);
-    ROS_INFO_STREAM("Config File = " << config_file);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"Bag filename" << rosbag_filename);
+    RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"Config File" << config_file);
   }
   else
   {
-    ROS_WARN("Usage: ./imu_simulator /path/to/output/bag_filename /path/to/simulation/config_filename");
+    RCLCPP_WARN(rclcpp::get_logger("rclcpp"), "Usage: ./imu_simulator /path/to/output/bag_filename /path/to/simulation/config_filename");
+  }
     return 1;
   }
 
   auto start = std::clock();
 
   ImuSimulator simulator(config_file, rosbag_filename);
-  ROS_INFO_STREAM("IMU simulator constructed");
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"), "IMU simulator constructed");
   simulator.run();
 
   double durationTime = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-  ROS_INFO("Total computation time: %f s", durationTime);
+  RCLCPP_INFO_STREAM(rclcpp::get_logger("rclcpp"),"Total computation time ..." << durationTime);
   return 0;
 }
