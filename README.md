@@ -9,7 +9,7 @@ Additions to allan_variance_ros2:
 - jazzy 
 - tested and instructions to run on raspberry pi 5
 - some additions to the readme\
-- make IMU simulator work (WIP)
+- make IMU simulator work  (well now only tested in humble, with db3, TODO mcap)
 
 
 Run the package:
@@ -53,6 +53,14 @@ Example of full command:
 
 
 This uses data captured on a raspberry pi 5 with the BNO055 connected via I2C and using the pacakge [IMU_bno055_ROS2](https://github.com/diplodocuslongus/IMU_bno055_ROS2) 
+
+Simulator
+
+ex:
+    
+    ros2 run allan_variance_ros2 imu_simulator ~/Downloads/thatbag src/avar_imu_ros2/src/allan_variance_ros2/config/simulation/imu_simulator.yaml
+
+will create a bag in thatbag using the imu noise parameters in imu_simulator.yaml
 
 Original (Autoliv-Research's) readme.md
 TODO: adjust and merge.
